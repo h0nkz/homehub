@@ -12,7 +12,20 @@ Content-Type: application/json
 ### Get errand
 GET http://localhost:8080/api/scouting-errand/2
 
-
-
-### List errand
+### List errands
 GET http://localhost:8080/api/scouting-errand/list
+
+### Delete one errand
+DELETE http://localhost:8080/api/scouting-errand/1
+
+### Add errand
+PUT http://localhost:8080/api/scouting-errand/18
+Content-Type: application/json
+
+{
+    "id": 18,
+    "location": "http://localhost:8080/shopping-items2",
+    "objective": "no 4  edited 3",
+    "interval": 3,
+    "active": true
+}

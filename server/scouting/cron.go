@@ -45,6 +45,22 @@ func AddScoutingJob(location string, objective string, interval int) (uuid.UUID,
 	return job.ID(), err
 }
 
+func EditScoutingJob(jobId uuid.UUID, location string, objective string, interval int) error {
+	_, err := scheduler.Update(jobId,
+		gocron.DurationJob(
+			time.Duration(interval)*time.Second,
+		),
+		gocron.NewTask(
+			func(i int) {
+				fmt.Println(objective)
+			},
+			1,
+		),
+	)
+
+	return err
+}
+
 func RemoveScoutingJob(jobID uuid.UUID) error {
 	return scheduler.RemoveJob(jobID)
 }
