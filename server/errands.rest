@@ -1,0 +1,18 @@
+### Add errand
+POST http://localhost:8080/api/scouting-errand
+Content-Type: application/json
+
+{
+    "location": "http://localhost:8080/shopping-items2",
+    "objective": "no 4",
+    "interval": 3,
+    "active": true
+}
+
+### Get errand
+GET http://localhost:8080/api/scouting-errand/2
+
+
+
+### List errand
+GET http://localhost:8080/api/scouting-errand/list
