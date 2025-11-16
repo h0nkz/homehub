@@ -19,13 +19,14 @@ GET http://localhost:8080/api/scouting-errand/list
 DELETE http://localhost:8080/api/scouting-errand/1
 
 ### Add errand
-PUT http://localhost:8080/api/scouting-errand/18
+PUT http://localhost:8080/api/scouting-errand/19
 Content-Type: application/json
 
 {
-    "id": 18,
+    "id": 19,
     "location": "http://localhost:8080/shopping-items2",
-    "objective": "no 4  edited 3",
+    "objective": "no 4  edited 4",
     "interval": 3,
-    "active": true
+    "active": true,
+    "JobID": "43a48b98-e010-4ad6-ac22-e9b0ae9d511f"
 }
