@@ -29,7 +29,7 @@ func Scout(location string, objective string) (bool, error) {
 		fmt.Println(bodyString)
 
 		if strings.Contains(bodyString, objective) {
-			fmt.Printf("It is a match with objective %s", objective)
+			fmt.Printf("It is a match with objective %s\n", objective)
 
 			return true, nil
 		}

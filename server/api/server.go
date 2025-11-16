@@ -23,6 +23,10 @@ type ScoutingErrand struct {
 	Created   time.Time `json:"created"`
 }
 
+func (se *ScoutingErrand) toggle() {
+	se.Active = !se.Active
+}
+
 // Server type is the type containing server logic
 type Server struct {
 	*mux.Router
@@ -51,7 +55,7 @@ func (s *Server) routes() {
 	s.HandleFunc("/api/scouting-errand/list", s.listScoutingErrands()).Methods("GET")
 	s.HandleFunc("/api/scouting-errand/{id}", s.getScoutingErrand()).Methods("GET")
 	s.HandleFunc("/api/scouting-errand/{id}", s.deleteScoutingErrand()).Methods("DELETE")
-	//s.HandleFunc("api/scouting-errand/{id}/toggle", s.toggleScoutingErrand()).Methods("POST")
+	s.HandleFunc("/api/scouting-errand/{id}/toggle", s.toggleScoutingErrand()).Methods("POST")
 }
 
 func (s *Server) createScoutingErrand() http.HandlerFunc {
@@ -175,5 +179,44 @@ func (s *Server) listScoutingErrands() http.HandlerFunc {
 			return
 		}
 
+	}
+}
+
+func (s *Server) toggleScoutingErrand() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		idStr, _ := mux.Vars(r)["id"]
+		id, err := strconv.ParseUint(idStr, 10, 32)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+		}
+
+		scoutingErrand, err := gorm.G[ScoutingErrand](s.db).Where("id = ?", id).First(s.ctx)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+		}
+
+		scoutingErrand.toggle()
+
+		if scoutingErrand.Active {
+			jobID, err := scouting.AddScoutingJob(scoutingErrand.Location, scoutingErrand.Objective, scoutingErrand.Interval)
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+			}
+			s.errandJobMap[scoutingErrand.ID] = jobID
+		} else {
+			jobID, OK := s.errandJobMap[uint(id)]
+
+			if !OK {
+				http.Error(w, "No job ID was found linked to the errand", http.StatusBadRequest)
+			}
+			scouting.RemoveScoutingJob(jobID)
+			delete(s.errandJobMap, scoutingErrand.ID)
+		}
+		_, err = gorm.G[ScoutingErrand](s.db).Where("id = ?", id).Update(s.ctx, "active", scoutingErrand.Active)
+
+		if err := json.NewEncoder(w).Encode(scoutingErrand); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
 	}
 }
