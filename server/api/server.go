@@ -8,7 +8,6 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/glebarez/sqlite"
 	"github.com/google/uuid"
 	"github.com/gorilla/mux"
 	"gorm.io/gorm"
@@ -34,20 +33,16 @@ type Server struct {
 }
 
 // NewServer function creates a new server instance
-func NewServer() *Server {
-	db, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
-
-	if err != nil {
-		panic(err.Error())
-	}
-
+func NewServer(db *gorm.DB, ctx context.Context) *Server {
 	s := &Server{
 		Router:       mux.NewRouter(),
 		errandJobMap: make(map[uint]uuid.UUID),
 		db:           db,
-		ctx:          context.Background(),
+		ctx:          ctx,
 	}
 	s.routes()
+
+	db.AutoMigrate(&ScoutingErrand{})
 
 	return s
 }
@@ -88,7 +83,7 @@ func (s *Server) createScoutingErrand() http.HandlerFunc {
 		}
 	}
 }
-No labels
+
 func (s *Server) editScoutingErrand() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var scoutingErrand ScoutingErrand
@@ -104,7 +99,7 @@ func (s *Server) editScoutingErrand() http.HandlerFunc {
 			return
 		}
 
-		_, err = gorm.G[ScoutingErrand](s.db).Where("id = ?", id).Updates(ctx, scoutingErrand)
+		_, err = gorm.G[ScoutingErrand](s.db).Where("id = ?", id).Updates(s.ctx, scoutingErrand)
 		jobID, OK := s.errandJobMap[scoutingErrand.ID]
 
 		if !OK {
@@ -128,7 +123,7 @@ func (s *Server) getScoutingErrand() http.HandlerFunc {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 		}
 
-		scoutingErrand, err := gorm.G[ScoutingErrand](s.db).Where("id = ?", id).First(ctx)
+		scoutingErrand, err := gorm.G[ScoutingErrand](s.db).Where("id = ?", id).First(s.ctx)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
@@ -161,7 +156,7 @@ func (s *Server) deleteScoutingErrand() http.HandlerFunc {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
 
-		_, err = gorm.G[ScoutingErrand](s.db).Where("id = ?", id).Delete(ctx)
+		_, err = gorm.G[ScoutingErrand](s.db).Where("id = ?", id).Delete(s.ctx)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
@@ -170,7 +165,7 @@ func (s *Server) deleteScoutingErrand() http.HandlerFunc {
 
 func (s *Server) listScoutingErrands() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		scoutingErrands, err := gorm.G[ScoutingErrand](s.db).Find(ctx)
+		scoutingErrands, err := gorm.G[ScoutingErrand](s.db).Find(s.ctx)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
