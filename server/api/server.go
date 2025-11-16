@@ -22,24 +22,30 @@ type ScoutingErrand struct {
 	Interval  int       `json:"interval"`
 	Active    bool      `json:"active"`
 	Created   time.Time `json:"created"`
-	JobID     uuid.UUID
 }
 
 // Server type is the type containing server logic
 type Server struct {
 	*mux.Router
 
-	errands []ScoutingErrand
+	errandJobMap map[uint]uuid.UUID
+	db           *gorm.DB
+	ctx          context.Context
 }
-
-var db, err = gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
-var ctx = context.Background()
 
 // NewServer function creates a new server instance
 func NewServer() *Server {
+	db, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
+
+	if err != nil {
+		panic(err.Error())
+	}
+
 	s := &Server{
-		Router:  mux.NewRouter(),
-		errands: []ScoutingErrand{},
+		Router:       mux.NewRouter(),
+		errandJobMap: make(map[uint]uuid.UUID),
+		db:           db,
+		ctx:          context.Background(),
 	}
 	s.routes()
 
@@ -52,6 +58,7 @@ func (s *Server) routes() {
 	s.HandleFunc("/api/scouting-errand/list", s.listScoutingErrands()).Methods("GET")
 	s.HandleFunc("/api/scouting-errand/{id}", s.getScoutingErrand()).Methods("GET")
 	s.HandleFunc("/api/scouting-errand/{id}", s.deleteScoutingErrand()).Methods("DELETE")
+	//s.HandleFunc("api/scouting-errand/{id}/toggle", s.toggleScoutingErrand()).Methods("POST")
 }
 
 func (s *Server) createScoutingErrand() http.HandlerFunc {
@@ -68,12 +75,11 @@ func (s *Server) createScoutingErrand() http.HandlerFunc {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
 
-		scoutingErrand.JobID = jobID
-
-		if res := db.Create(&scoutingErrand); res.Error != nil {
+		if res := s.db.Create(&scoutingErrand); res.Error != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
 
+		s.errandJobMap[scoutingErrand.ID] = jobID
 		w.Header().Set("Content-Type", "application/json")
 
 		if err := json.NewEncoder(w).Encode(scoutingErrand); err != nil {
@@ -82,7 +88,7 @@ func (s *Server) createScoutingErrand() http.HandlerFunc {
 		}
 	}
 }
-
+No labels
 func (s *Server) editScoutingErrand() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var scoutingErrand ScoutingErrand
@@ -98,8 +104,14 @@ func (s *Server) editScoutingErrand() http.HandlerFunc {
 			return
 		}
 
-		_, err = gorm.G[ScoutingErrand](db).Where("id = ?", id).Updates(ctx, scoutingErrand)
-		scouting.EditScoutingJob(scoutingErrand.JobID, scoutingErrand.Location, scoutingErrand.Objective, scoutingErrand.Interval)
+		_, err = gorm.G[ScoutingErrand](s.db).Where("id = ?", id).Updates(ctx, scoutingErrand)
+		jobID, OK := s.errandJobMap[scoutingErrand.ID]
+
+		if !OK {
+			http.Error(w, "No job ID was found linked to the errand", http.StatusBadRequest)
+		}
+
+		scouting.EditScoutingJob(jobID, scoutingErrand.Location, scoutingErrand.Objective, scoutingErrand.Interval)
 
 		if err := json.NewDecoder(r.Body).Decode(&scoutingErrand); err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
@@ -116,7 +128,7 @@ func (s *Server) getScoutingErrand() http.HandlerFunc {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 		}
 
-		scoutingErrand, err := gorm.G[ScoutingErrand](db).Where("id = ?", id).First(ctx)
+		scoutingErrand, err := gorm.G[ScoutingErrand](s.db).Where("id = ?", id).First(ctx)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
@@ -139,30 +151,26 @@ func (s *Server) deleteScoutingErrand() http.HandlerFunc {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 		}
 
-		scoutingErrand, err := gorm.G[ScoutingErrand](db).Where("id = ?", id).First(ctx)
-		err = scouting.RemoveScoutingJob(scoutingErrand.JobID)
+		jobID, OK := s.errandJobMap[uint(id)]
+
+		if !OK {
+			http.Error(w, "No job ID was found linked to the errand", http.StatusBadRequest)
+		}
+		err = scouting.RemoveScoutingJob(jobID)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
 
-		_, err = gorm.G[ScoutingErrand](db).Where("id = ?", id).Delete(ctx)
+		_, err = gorm.G[ScoutingErrand](s.db).Where("id = ?", id).Delete(ctx)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
-
-		w.Header().Set("Content-Type", "application/json")
-
-		if err := json.NewEncoder(w).Encode(scoutingErrand); err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-
 	}
 }
 
 func (s *Server) listScoutingErrands() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		scoutingErrands, err := gorm.G[ScoutingErrand](db).Find(ctx)
+		scoutingErrands, err := gorm.G[ScoutingErrand](s.db).Find(ctx)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
