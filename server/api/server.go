@@ -42,8 +42,6 @@ func NewServer(db *gorm.DB, ctx context.Context) *Server {
 	}
 	s.routes()
 
-	db.AutoMigrate(&ScoutingErrand{})
-
 	return s
 }
 
@@ -111,7 +109,6 @@ func (s *Server) editScoutingErrand() http.HandlerFunc {
 		if err := json.NewDecoder(r.Body).Decode(&scoutingErrand); err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 		}
-
 	}
 }
 
@@ -134,7 +131,6 @@ func (s *Server) getScoutingErrand() http.HandlerFunc {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-
 	}
 }
 
@@ -155,6 +151,8 @@ func (s *Server) deleteScoutingErrand() http.HandlerFunc {
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
+
+		delete(s.errandJobMap, uint(id))
 
 		_, err = gorm.G[ScoutingErrand](s.db).Where("id = ?", id).Delete(s.ctx)
 		if err != nil {

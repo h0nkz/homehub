@@ -1,7 +1,6 @@
 package scouting
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/go-co-op/gocron/v2"
@@ -27,20 +26,11 @@ func ShutDownScheduler() {
 }
 
 func AddScoutingJob(location string, objective string, interval int) (uuid.UUID, error) {
-
-	fmt.Println("Hello cron")
-
 	job, err := scheduler.NewJob(
 		gocron.DurationJob(
 			time.Duration(interval)*time.Second,
 		),
-		gocron.NewTask(
-			func(location string, objective string) {
-				Scout(location, objective)
-			},
-			location,
-			objective,
-		),
+		createScoutTask(location, objective),
 	)
 
 	return job.ID(), err
@@ -51,15 +41,20 @@ func EditScoutingJob(jobId uuid.UUID, location string, objective string, interva
 		gocron.DurationJob(
 			time.Duration(interval)*time.Second,
 		),
-		gocron.NewTask(
-			func(i int) {
-				fmt.Println(objective)
-			},
-			1,
-		),
+		createScoutTask(location, objective),
 	)
 
 	return err
+}
+
+func createScoutTask(location string, objective string) gocron.Task {
+	return gocron.NewTask(
+		func(location string, objective string) {
+			Scout(location, objective)
+		},
+		location,
+		objective,
+	)
 }
 
 func RemoveScoutingJob(jobID uuid.UUID) error {
