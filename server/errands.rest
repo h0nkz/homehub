@@ -3,7 +3,7 @@ POST http://localhost:8080/api/scouting-errand
 Content-Type: application/json
 
 {
-    "location": "http://localhost:8080/shopping-items2",
+    "location": "https://webhook.site/3855069a-74c7-42a3-8c33-5950ea4dc0dc",
     "objective": "no 4",
     "interval": 3,
     "active": true
@@ -30,3 +30,6 @@ Content-Type: application/json
     "active": true,
     "JobID": "43a48b98-e010-4ad6-ac22-e9b0ae9d511f"
 }
+
+### Test temporary webhook
+GET https://webhook.site/3855069a-74c7-42a3-8c33-5950ea4dc0dc

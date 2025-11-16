@@ -35,10 +35,11 @@ func AddScoutingJob(location string, objective string, interval int) (uuid.UUID,
 			time.Duration(interval)*time.Second,
 		),
 		gocron.NewTask(
-			func(i int) {
-				fmt.Println(objective)
+			func(location string, objective string) {
+				Scout(location, objective)
 			},
-			1,
+			location,
+			objective,
 		),
 	)
 
