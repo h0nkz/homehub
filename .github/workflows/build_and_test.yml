@@ -12,11 +12,11 @@ jobs:
     - name: Set up Go
       uses: actions/setup-go@v5
       with:
-        go-version-file: go.mod
+        go-version-file: server/go.mod
 
     - name: Build
-      run: go build -v ./...
+      run: go build -v ./server/main.go
 
     - name: Test
-      run: go test -v ./...
+      run: cd server && go test -v ./...
       
