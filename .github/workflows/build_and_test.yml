@@ -4,7 +4,7 @@ on:
     - main
 
 jobs:
-  test:
+  build-and-test:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -16,6 +16,9 @@ jobs:
 
     - name: Goto Server directory
       run: cd server
+
+    - name: Test path
+      run: pwd
       
     - name: Go Mod Tidy
       run: go mod tidy
