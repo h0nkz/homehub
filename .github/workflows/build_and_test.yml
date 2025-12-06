@@ -14,9 +14,15 @@ jobs:
       with:
         go-version-file: server/go.mod
 
+    - name: Goto Server directory
+      run: cd server
+      
+    - name: Go Mod Tidy
+      run: go mod tidy
+
     - name: Build
-      run: go build -v ./server/main.go
+      run: go build -v ./...
 
     - name: Test
-      run: cd server && go test -v ./...
+      run: go test -v ./...
       
