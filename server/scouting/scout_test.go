@@ -8,14 +8,14 @@ import (
 
 func TestScout(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.URL.String() == "VALID URL" {
-			w.WriteHeader(http.StatusOK)
-			w.Write([]byte(`Expected Return Value`))
-		}
-		if r.URL.String() == "INVALID URL" {
+		if r.URL.Path != "/valid-url" {
 			w.WriteHeader(http.StatusNotFound)
 		}
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte(`Expected Return Value`))
 	}))
+
+	validUrl := server.URL + "/valid-url"
 
 	type args struct {
 		location  string
@@ -27,8 +27,11 @@ func TestScout(t *testing.T) {
 		want    bool
 		wantErr bool
 	}{
-		{"Test Found Objective", args{server.URL, "Expected Return Value"}, true, false},
-		{"Test Did Not Find Objective", args{server.URL, "Not Expected Value"}, false, false},
+		{"Test Found Objective", args{validUrl, "Expected Return Value"}, true, false},
+		{"Test Not Find Objective", args{validUrl, "Not Expected Value"}, false, false},
+		{"Test Invalid Url", args{server.URL + "/invalidUrl", "Not Expected Value"}, false, true},
+		{"Test Empty Location", args{"", "Expected Return Value"}, false, true},
+		{"Test Empty Objective", args{validUrl, ""}, false, true},
 	}
 
 	defer server.Close()
