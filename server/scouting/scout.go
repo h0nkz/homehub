@@ -8,6 +8,11 @@ import (
 )
 
 func Scout(location string, objective string) (bool, error) {
+	if err := validateInput(location, objective); err != nil {
+		fmt.Println(err.Error())
+		return false, err
+	}
+
 	fmt.Println("Sending GET request")
 	response, err := http.Get(location)
 	if err != nil {
@@ -19,7 +24,8 @@ func Scout(location string, objective string) (bool, error) {
 
 	defer response.Body.Close()
 
-	if response.StatusCode == http.StatusOK {
+	switch response.StatusCode {
+	case http.StatusOK:
 		fmt.Println("Status code OK")
 		bodyBytes, err := io.ReadAll(response.Body)
 		if err != nil {
@@ -34,8 +40,22 @@ func Scout(location string, objective string) (bool, error) {
 			return true, nil
 		}
 		return false, nil
+	case http.StatusNotFound:
+		return false, fmt.Errorf("Request to %s was not found", location)
 	}
+
 	fmt.Println("Status code not OK, returning")
 
 	return false, nil
+}
+
+func validateInput(location string, objective string) error {
+	if location == "" {
+		return fmt.Errorf("Validate Input Error: Location is empty")
+	}
+	if objective == "" {
+		return fmt.Errorf("Validate Input Error: Objective is empty")
+	}
+
+	return nil
 }
