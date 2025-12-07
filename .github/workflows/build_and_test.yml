@@ -12,17 +12,14 @@ jobs:
     - name: Set up Go
       uses: actions/setup-go@v5
       with:
-        go-version-file: server/go.mod
+        go-version-file: go.mod
 
     - name: Go Mod Tidy
-      working-directory: ./server
       run: go mod tidy
 
     - name: Build
-      working-directory: ./server
       run: go build -v ./...
 
     - name: Test
-      working-directory: ./server
       run: go test -v ./...
       
