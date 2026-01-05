@@ -33,7 +33,7 @@ function App() {
     palette: {
       mode: 'dark',
       primary: {
-        main: '#110f00ff',
+        main: '#000800ff',
       },
       secondary: {
         main: '#059400ff'
@@ -46,6 +46,13 @@ function App() {
       fontFamily: 'VT323',
       fontWeightBold: 800,
     },
+    components: {
+    MuiToolbar: {
+      defaultProps: {
+        color: '#000800ff' // not working
+      }
+    }
+    }
   });
 
   const AppBarText = styled(Typography)(({ theme }) => ({
@@ -61,9 +68,12 @@ function App() {
   return (
     <div id="grandparent">
       <ThemeProvider theme={darkTheme}>
-        <AppBar position="static" color="primary">
+        <AppBar position="static" sx={{
+          backgroundColor: darkTheme.palette.primary.main
+        }}>
           <Toolbar sx={{
             width: 1,
+            backgroundColor: '#000800ff'
           }}>
             <Grid container spacing={1} width={1}>
               <Grid size={9}>
