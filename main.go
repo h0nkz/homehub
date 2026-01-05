@@ -16,6 +16,7 @@ func main() {
 		panic(err.Error())
 	}
 
+	dir := http.Dir("../")
 	server := api.NewServer(db, context.Background())
 	http.ListenAndServe(":8080", server)
 }

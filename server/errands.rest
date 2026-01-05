@@ -1,0 +1,40 @@
+### Add errand
+POST http://localhost:8080/api/scouting-errand
+Content-Type: application/json
+
+{
+    "location": "https://webhook.site/68ddc875-f120-4ad3-9077-a6abdfcbf2bb",
+    "objective": "no 4",
+    "interval": 10,
+    "active": true
+}
+
+### Get errand
+GET http://localhost:8080/api/scouting-errand/30
+
+### List errands
+GET http://localhost:8080/api/scouting-errand/list
+
+### Delete one errand
+DELETE http://localhost:8080/api/scouting-errand/1
+
+### Add errand
+PUT http://localhost:8080/api/scouting-errand/19
+Content-Type: application/json
+
+{
+    "id": 19,
+    "location": "http://localhost:8080/shopping-items2",
+    "objective": "no 4  edited 4",
+    "interval": 3,
+    "active": true,
+    "JobID": "43a48b98-e010-4ad6-ac22-e9b0ae9d511f"
+}
+
+### Toggle errand
+POST http://localhost:8080/api/scouting-errand/30/toggle
+Content-Type: application/json
+
+
+### Test temporary webhook
+GET https://webhook.site/3855069a-74c7-42a3-8c33-5950ea4dc0dc

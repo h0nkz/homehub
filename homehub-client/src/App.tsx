@@ -2,33 +2,95 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import { styled, ThemeProvider, createTheme } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
+import { AppBar, Button, colors, IconButton, Toolbar, Typography } from '@mui/material';
+import WbSunnyIcon from '@mui/icons-material/WbSunny';
+
+
+/*
+  Screen LNT101NT06-T01 with max resolution 1024x600
+*/
+
+
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: '#fff',
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: 'center',
+    color: (theme.vars ?? theme).palette.text.secondary,
+    ...theme.applyStyles('dark', {
+      backgroundColor: '#1A2027',
+    }),
+  }));
+
+  const darkTheme = createTheme({
+    palette: {
+      mode: 'dark',
+      primary: {
+        main: '#110f00ff',
+      },
+      secondary: {
+        main: '#059400ff'
+      },
+      text: {
+        primary: '#00ee00'
+      },
+    },
+    typography: {
+      fontFamily: 'VT323',
+      fontWeightBold: 800,
+    },
+  });
+
+  const AppBarText = styled(Typography)(({ theme }) => ({
+    fontSize: 20,
+    color: (theme.vars ?? theme).palette.text.primary,
+    fontFamily: 'monospace',
+    fontWeight: theme.typography.fontWeightBold
+  }))
+
+  const currentTime = '13:37'
+  const currentTemp = '17°C'
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div id="grandparent">
+      <ThemeProvider theme={darkTheme}>
+        <AppBar position="static" color="primary">
+          <Toolbar sx={{
+            width: 1,
+          }}>
+            <Grid container spacing={1} width={1}>
+              <Grid size={9}>
+                <AppBarText color="secondary">
+                  HOMEHUB
+                </AppBarText>
+              </Grid>
+              <Grid size={1}>
+                <AppBarText>
+                  {currentTime}
+                </AppBarText>
+              </Grid>
+              <Grid size={1}>
+                <AppBarText>
+                  <WbSunnyIcon sx={{ fontSize: 16 }} /> {currentTemp}
+                </AppBarText>
+              </Grid>
+
+            </Grid>
+          </Toolbar>
+        </AppBar>
+        <Grid container spacing={2}>
+          
+        </Grid>
+
+      </ThemeProvider>
+    </div>
   )
 }
 
