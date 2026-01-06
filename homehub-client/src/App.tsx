@@ -1,13 +1,10 @@
-import { useState } from 'react'
 import './App.css'
 import { styled, ThemeProvider, createTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
-import { AppBar, BottomNavigation, BottomNavigationAction, Button, colors, IconButton, Tab, Tabs, Toolbar, Typography } from '@mui/material';
-import WbSunnyIcon from '@mui/icons-material/WbSunny';
+import { Tab, Tabs } from '@mui/material';
 import React from 'react';
-import { BorderAllRounded, BorderBottom, BorderColor } from '@mui/icons-material';
+import HubAppBar from './components/HubAppBar';
 
 
 /*
@@ -47,44 +44,6 @@ function App() {
       }
     }
   });
-
-  const HubAppBar = () => (
-    <AppBar position="static" sx={{
-      backgroundColor: darkTheme.palette.background.default
-    }}>
-      <Toolbar sx={{
-        width: 1,
-        backgroundColor: '#000800ff'
-      }}>
-        <Grid container spacing={1} width={1}>
-          <Grid size={9}>
-            <AppBarText color="primary.main">
-              HOMEHUB
-            </AppBarText>
-          </Grid>
-          <Grid size={1}>
-            <AppBarText>
-              {currentTime}
-            </AppBarText>
-          </Grid>
-          <Grid size={1}>
-            <AppBarText>
-              <WbSunnyIcon sx={{ fontSize: 16 }} /> {currentTemp}
-            </AppBarText>
-          </Grid>
-
-        </Grid>
-      </Toolbar>
-    </AppBar>
-  )
-
-  const AppBarText = styled(Typography)(({ theme }) => ({
-    fontSize: 20,
-    color: (theme.vars ?? theme).palette.text.primary,
-    fontFamily: 'monospace',
-    fontWeight: theme.typography.fontWeightBold
-  }))
-
 
   interface StyledTabsProps {
     children?: React.ReactNode;
@@ -135,8 +94,7 @@ function App() {
     },
   }));
 
-  const currentTime = '13:37'
-  const currentTemp = '17°C'
+  
 
   const [tabValue, setTabValue] = React.useState('main');
   const handleChangeTab = (event: React.SyntheticEvent, newValue: string) => {
@@ -146,7 +104,7 @@ function App() {
   return (
     <div id="grandparent">
       <ThemeProvider theme={darkTheme}>
-        <HubAppBar />
+        <HubAppBar appName='>HOMEHUB' theme={darkTheme}/>
         <Box>
           <Box sx={{
             border: 2,
