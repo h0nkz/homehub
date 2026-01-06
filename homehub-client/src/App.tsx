@@ -2,20 +2,19 @@ import './App.css'
 import { styled, ThemeProvider, createTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import { Tab, Tabs } from '@mui/material';
+import { Tab, Tabs, Typography } from '@mui/material';
 import React from 'react';
 import HubAppBar from './components/HubAppBar';
+import MainFrame from './components/MainFrame';
 
 
 /*
   Screen LNT101NT06-T01 with max resolution 1024x600
 */
 
-
-
 function App() {
 
-  const darkTheme = createTheme({
+  const theme = createTheme({
     palette: {
       mode: 'dark',
       primary: {
@@ -101,10 +100,22 @@ function App() {
     setTabValue(newValue);
   };
 
+  const populateBox = () => {
+    switch (tabValue) {
+      case "main":
+        return <MainFrame/>
+        case "todo":
+          return <Typography>todo</Typography>
+          case "errands":
+        return <Typography>errands</Typography>
+        case "calendar":
+        return <Typography>calendar</Typography>
+    }
+  }
   return (
     <div id="grandparent">
-      <ThemeProvider theme={darkTheme}>
-        <HubAppBar appName='>HOMEHUB' theme={darkTheme}/>
+      <ThemeProvider theme={theme}>
+        <HubAppBar appName='>HOMEHUB' theme={theme}/>
         <Box>
           <Box sx={{
             border: 2,
@@ -114,10 +125,7 @@ function App() {
             marginRight: 3,
             borderColor: 'primary.main'
           }}>
-            {tabValue}
-            <Grid container>
-
-            </Grid>
+            {populateBox()}
           </Box>
           <StyledTabs
             value={tabValue}
