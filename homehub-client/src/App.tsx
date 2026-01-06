@@ -22,14 +22,18 @@ function App() {
     palette: {
       mode: 'dark',
       primary: {
-        main: '#000800ff',
+        main: '#00ee00',
+        
       },
       secondary: {
-        main: '#00ee00',
+        main: '#000800ff',
       },
       text: {
         primary: '#00ee00'
       },
+      background: {
+        default: '#000800ff'
+      }
     },
     typography: {
       fontFamily: 'monospace',
@@ -46,7 +50,7 @@ function App() {
 
   const HubAppBar = () => (
     <AppBar position="static" sx={{
-      backgroundColor: darkTheme.palette.primary.main
+      backgroundColor: darkTheme.palette.background.default
     }}>
       <Toolbar sx={{
         width: 1,
@@ -54,7 +58,7 @@ function App() {
       }}>
         <Grid container spacing={1} width={1}>
           <Grid size={9}>
-            <AppBarText color="secondary">
+            <AppBarText color="primary.main">
               HOMEHUB
             </AppBarText>
           </Grid>
@@ -92,7 +96,7 @@ function App() {
       {...props}
       centered
       sx={{
-        color: 'secondary.main'
+        color: 'primary.main'
       }}
     />
   ))({
@@ -119,14 +123,15 @@ function App() {
     textTransform: 'none',
     fontWeight: theme.typography.fontWeightBold,
     fontSize: theme.typography.pxToRem(18),
-    marginRight: theme.spacing(5),
-    color: '#00ee00',
+    color: theme.palette.primary.main,
     border: 2,
+    borderColor: theme.palette.primary.main,
+    width: (1024-48)/4,
     '&.Mui-selected': {
-      backgroundColor: theme.palette.secondary.main,
+      backgroundColor: theme.palette.primary.main,
       border: 2,
-      borderRadius: 3
-
+      borderRadius: 2,
+      color: theme.palette.background.default,
     },
   }));
 
@@ -149,7 +154,7 @@ function App() {
             width: 972,
             marginLeft: 3,
             marginRight: 3,
-            borderColor: 'secondary.main'
+            borderColor: 'primary.main'
           }}>
             {tabValue}
             <Grid container>
