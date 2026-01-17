@@ -1,8 +1,14 @@
-import TagFacesIcon from '@mui/icons-material/TagFaces';
+
 import { Box, Button, Grid, ListItem, Typography } from "@mui/material"
 import ListBox from './LabeledListBox';
+import type { Theme } from "@mui/material/styles";
+import React from "react";
 
-function ToDoFrame() {
+interface ToDoFrameProps {
+    theme : Theme
+}
+
+function ToDoFrame(props : ToDoFrameProps) {
     const buttonLabels = [
         "TODAY",
         "PRIO 1",
@@ -10,7 +16,7 @@ function ToDoFrame() {
         "PRIO 3",
         "DONE"
     ]
-
+    const [selectedButton, setSelectedButton] = React.useState('today');
     const toDos = [
         "[ ] EAT VEGGIES",
         "[ ] PET CATS",
@@ -19,6 +25,9 @@ function ToDoFrame() {
         "[ ] TAKE A LONG BATH AND REFLECT OVER WHO YOU ARE AND WHAT YOU HAVE BECOME"
     ]
 
+    const handleButtonPressed = (buttonLabel: string) => {
+        setSelectedButton(buttonLabel)
+    }
     return (
         <Grid container gridRow={1} columns={3} spacing={1}>
             <Grid size={1}>
@@ -34,9 +43,11 @@ function ToDoFrame() {
                             <Button
                                 variant='text'
                                 sx={{
-                                    border: 2,
-                                    width: 1
-                                }}>
+                                    border: 3,
+                                    width: 1,
+                                    fontWeight: props.theme.typography.fontWeightBold
+                                }}
+                                onClick={() => handleButtonPressed(item)}>
                                 {item}
                             </Button>
                         </ListItem>
@@ -44,7 +55,7 @@ function ToDoFrame() {
                 </Box>
             </Grid>
             <Grid size={2}>
-                <ListBox listItems={toDos} label="TODAY" />
+                <ListBox listItems={toDos} label={selectedButton} />
             </Grid>
         </Grid>
     )

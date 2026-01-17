@@ -105,7 +105,7 @@ function App() {
       case "main":
         return <MainFrame/>
         case "todo":
-          return <ToDoFrame/>
+          return <ToDoFrame theme={theme}/>
           case "errands":
         return <Typography>errands</Typography>
         case "calendar":
