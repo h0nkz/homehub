@@ -10,6 +10,7 @@ export default defineConfig({
       // the origin you will be accessing via browser
       origin: 'localhost',// ToDo: Review, add port 
     },
+    allowedHosts: ['generic.lan'],
   },
   build: {
     // generate .vite/manifest.json in outDir

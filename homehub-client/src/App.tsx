@@ -1,7 +1,6 @@
 import './App.css'
 import { styled, ThemeProvider, createTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
 import { Tab, Tabs, Typography } from '@mui/material';
 import React from 'react';
 import HubAppBar from './components/HubAppBar';
@@ -96,7 +95,7 @@ function App() {
   
 
   const [tabValue, setTabValue] = React.useState('main');
-  const handleChangeTab = (event: React.SyntheticEvent, newValue: string) => {
+  const handleChangeTab = (_: React.SyntheticEvent, newValue: string) => {
     setTabValue(newValue);
   };
 
