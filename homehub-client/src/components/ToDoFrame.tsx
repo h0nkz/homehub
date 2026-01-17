@@ -29,7 +29,7 @@ function ToDoFrame() {
         setSelectedButton(buttonLabel);
     }, []);
     return (
-        <Grid container gridRow={1} columns={3} spacing={1}>
+        <Grid container gridRow={1} columns={3} columnSpacing={1} height={1}>
             <Grid size={1}>
                 <Box padding={5} sx={{
                     display: 'flex',
