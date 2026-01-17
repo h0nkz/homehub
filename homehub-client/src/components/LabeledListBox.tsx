@@ -5,10 +5,10 @@ interface ListBoxProps {
     label : string
 }
 
-function ListBox(props : ListBoxProps) {
+function LabeledListBox(props : ListBoxProps) {
 
     return (
-         <Grid size={1}>
+         
                 <Box padding={8}>
                     <Typography marginInlineStart={5} sx={{
                         fontSize: 20,
@@ -29,8 +29,7 @@ function ListBox(props : ListBoxProps) {
                         ))}
                     </List>
                 </Box>
-            </Grid>
     )
 }
 
-export default ListBox
+export default LabeledListBox

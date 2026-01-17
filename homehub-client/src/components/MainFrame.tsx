@@ -1,10 +1,10 @@
 import TagFacesIcon from '@mui/icons-material/TagFaces';
-import { Box, Grid, List, ListItem, Typography } from "@mui/material"
-import ListBox from './ListBox';
+import { Box, Grid, Typography } from "@mui/material"
+import ListBox from './LabeledListBox';
 
 function MainFrame() {
     const mainListItems = [
-        "[25/4 12:15] 1 ToDo due today",
+        "[25/4 12:15] 1 ToDo due today: Pet cats",
         "[25/4 07:00] Scouted for Allotment",
         "[24/4 15:00] Yoga Class @ 18.00 today",
         "",
@@ -17,7 +17,7 @@ function MainFrame() {
         "",]
 
     return (
-        <Grid container gridRow={1} columns={2} spacing={1}>
+        <Grid container gridRow={1} columns={3} spacing={1}>
             <Grid size={1}>
                 <Box padding={5}>
                     <Typography marginInlineStart={5} sx={{
@@ -28,7 +28,9 @@ function MainFrame() {
                     </Typography>
                 </Box>
             </Grid>
-            <ListBox listItems={mainListItems} label="FEED"/>
+            <Grid size={2}>
+                <ListBox listItems={mainListItems} label="FEED"/>
+            </Grid>
         </Grid>
     )
 }

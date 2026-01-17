@@ -5,6 +5,7 @@ import { Tab, Tabs, Typography } from '@mui/material';
 import React from 'react';
 import HubAppBar from './components/HubAppBar';
 import MainFrame from './components/MainFrame';
+import ToDoFrame from './components/ToDoFrame';
 
 
 /*
@@ -104,7 +105,7 @@ function App() {
       case "main":
         return <MainFrame/>
         case "todo":
-          return <Typography>todo</Typography>
+          return <ToDoFrame/>
           case "errands":
         return <Typography>errands</Typography>
         case "calendar":
