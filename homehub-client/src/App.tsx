@@ -6,6 +6,7 @@ import React from 'react';
 import HubAppBar from './components/HubAppBar';
 import MainFrame from './components/MainFrame';
 import ToDoFrame from './components/ToDoFrame';
+import { StyledTab, StyledTabs } from './components/StyledTab';
 
 
 /*
@@ -44,57 +45,6 @@ function App() {
     }
   });
 
-  interface StyledTabsProps {
-    children?: React.ReactNode;
-    value: string;
-    onChange: (event: React.SyntheticEvent, newValue: string) => void;
-  }
-  const StyledTabs = styled((props: StyledTabsProps) => (
-    <Tabs
-      {...props}
-      centered
-      sx={{
-        color: 'primary.main'
-      }}
-    />
-  ))({
-    '& .MuiTabs-indicator': {
-      display: 'flex',
-      justifyContent: 'center',
-      backgroundColor: 'transparent',
-    },
-    '& .MuiTabs-indicatorSpan': {
-      maxWidth: 40,
-      width: '100%',
-      backgroundColor: '#635ee7',
-    },
-  });
-
-  interface StyledTabProps {
-    label: string;
-    value: string;
-  }
-
-  const StyledTab = styled((props: StyledTabProps) => (
-    <Tab disableRipple {...props} />
-  ))(({ theme }) => ({
-    textTransform: 'none',
-    fontWeight: theme.typography.fontWeightBold,
-    fontSize: theme.typography.pxToRem(18),
-    color: theme.palette.primary.main,
-    border: 2,
-    borderColor: theme.palette.primary.main,
-    width: (1024-48)/4,
-    '&.Mui-selected': {
-      backgroundColor: theme.palette.primary.main,
-      border: 2,
-      borderRadius: 2,
-      color: theme.palette.background.default,
-    },
-  }));
-
-  
-
   const [tabValue, setTabValue] = React.useState('main');
   const handleChangeTab = (_: React.SyntheticEvent, newValue: string) => {
     setTabValue(newValue);
@@ -131,9 +81,9 @@ function App() {
             value={tabValue}
             onChange={handleChangeTab}>
             <StyledTab value="main" label="MAIN"/>
-            <StyledTab value="todo" label="TODO" />
-            <StyledTab value="errands" label="ERRANDS" />
-            <StyledTab value="calendar" label="CALENDAR" />
+            <StyledTab value="todo" label="TODO"/>
+            <StyledTab value="errands" label="ERRANDS"/>
+            <StyledTab value="calendar" label="CALENDAR"/>
           </StyledTabs>
         </Box>
 

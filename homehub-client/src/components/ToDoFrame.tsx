@@ -16,13 +16,17 @@ function ToDoFrame(props : ToDoFrameProps) {
         "PRIO 3",
         "DONE"
     ]
-    const [selectedButton, setSelectedButton] = React.useState('today');
+    const [selectedButton, setSelectedButton] = React.useState('TODAY');
     const toDos = [
         "[ ] EAT VEGGIES",
         "[ ] PET CATS",
         "[ ] EXERCISE",
         "[ ] HAND OVER KPI REPORT",
-        "[ ] TAKE A LONG BATH AND REFLECT OVER WHO YOU ARE AND WHAT YOU HAVE BECOME"
+        "[ ] TAKE A LONG BATH AND REFLECT OVER WHO YOU ARE AND WHAT YOU HAVE BECOME",
+        "[ ] CALL MOM",
+        "[ ] WATER PLANTS",
+        "[ ] WATER CATS",
+        "[ ] DRINK WATER",
     ]
 
     const handleButtonPressed = (buttonLabel: string) => {

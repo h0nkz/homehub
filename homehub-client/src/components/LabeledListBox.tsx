@@ -24,7 +24,8 @@ function LabeledListBox(props : ListBoxProps) {
                         {props.listItems.map((item, index) => (
                             <ListItem key={index} sx={{
                                 height: 22,
-                                fontWeight: 600
+                                fontWeight: 600,
+                                margin: 1
                             }}>{item}</ListItem>
                         ))}
                     </List>
