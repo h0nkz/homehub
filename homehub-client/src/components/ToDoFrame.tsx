@@ -1,14 +1,10 @@
 
-import { Box, Button, Grid, ListItem, Typography } from "@mui/material"
+import { Box, Button, Grid, ListItem, useTheme } from "@mui/material"
 import ListBox from './LabeledListBox';
-import type { Theme } from "@mui/material/styles";
-import React from "react";
+import React, { useCallback } from "react";
 
-interface ToDoFrameProps {
-    theme : Theme
-}
-
-function ToDoFrame(props : ToDoFrameProps) {
+function ToDoFrame() {
+    const theme = useTheme();
     const buttonLabels = [
         "TODAY",
         "PRIO 1",
@@ -29,9 +25,9 @@ function ToDoFrame(props : ToDoFrameProps) {
         "[ ] DRINK WATER",
     ]
 
-    const handleButtonPressed = (buttonLabel: string) => {
-        setSelectedButton(buttonLabel)
-    }
+    const handleButtonPressed = useCallback((buttonLabel: string) => {
+        setSelectedButton(buttonLabel);
+    }, []);
     return (
         <Grid container gridRow={1} columns={3} spacing={1}>
             <Grid size={1}>
@@ -43,13 +39,13 @@ function ToDoFrame(props : ToDoFrameProps) {
                     height: 1
                 }}>
                     {buttonLabels.map((item, index) => (
-                        <ListItem key={index}>
+                        <ListItem key={index+item}>
                             <Button
                                 variant='text'
                                 sx={{
                                     border: 3,
                                     width: 1,
-                                    fontWeight: props.theme.typography.fontWeightBold
+                                    fontWeight: theme.typography.fontWeightBold
                                 }}
                                 onClick={() => handleButtonPressed(item)}>
                                 {item}

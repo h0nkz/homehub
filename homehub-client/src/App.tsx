@@ -1,7 +1,7 @@
 import './App.css'
-import { styled, ThemeProvider, createTheme } from '@mui/material/styles';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import { Tab, Tabs, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import React from 'react';
 import HubAppBar from './components/HubAppBar';
 import MainFrame from './components/MainFrame';
@@ -50,12 +50,12 @@ function App() {
     setTabValue(newValue);
   };
 
-  const populateBox = () => {
+  const renderTabContent = () => {
     switch (tabValue) {
       case "main":
         return <MainFrame/>
         case "todo":
-          return <ToDoFrame theme={theme}/>
+          return <ToDoFrame/>
           case "errands":
         return <Typography>errands</Typography>
         case "calendar":
@@ -65,7 +65,7 @@ function App() {
   return (
     <div id="grandparent">
       <ThemeProvider theme={theme}>
-        <HubAppBar appName='>HOMEHUB' theme={theme}/>
+        <HubAppBar appName='>HOMEHUB'/>
         <Box>
           <Box sx={{
             border: 2,
@@ -75,7 +75,7 @@ function App() {
             marginRight: 3,
             borderColor: 'primary.main'
           }}>
-            {populateBox()}
+            {renderTabContent()}
           </Box>
           <StyledTabs
             value={tabValue}

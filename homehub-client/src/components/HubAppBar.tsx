@@ -1,26 +1,25 @@
 import { AppBar, Toolbar, Grid, styled, Typography } from "@mui/material";
-import type { Theme } from "@mui/material/styles";
 import WbSunnyIcon from '@mui/icons-material/WbSunny';
+import { useTheme } from "@mui/material/styles";
 
 interface HubAppBarProps {
     appName : string
-    theme : Theme
 }
 function HubAppBar(props : HubAppBarProps) {
-
+    const theme = useTheme();
     const currentTime = '13:37'
     const currentTemp = '17°C'
 
     const AppBarText = styled(Typography)(({ theme }) => ({
         fontSize: 20,
-        color: (theme.vars ?? theme).palette.text.primary,
+        color: theme.palette.text.primary,
         fontFamily: 'monospace',
         fontWeight: theme.typography.fontWeightBold
     }))
 
     return (
         <AppBar position="static" sx={{
-            backgroundColor: props.theme.palette.background.default
+            backgroundColor: theme.palette.background.default
         }}>
             <Toolbar sx={{
                 width: 1,
