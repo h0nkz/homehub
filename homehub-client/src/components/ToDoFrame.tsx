@@ -10,7 +10,8 @@ function ToDoFrame() {
         "PRIO 1",
         "PRIO 2",
         "PRIO 3",
-        "DONE"
+        "DONE",
+        "OVERDUE"
     ]
     const [selectedButton, setSelectedButton] = React.useState('TODAY');
     const toDos = [
@@ -31,12 +32,13 @@ function ToDoFrame() {
     return (
         <Grid container gridRow={1} columns={3} columnSpacing={1} height={1}>
             <Grid size={1}>
-                <Box padding={5} sx={{
+                <Box sx={{
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    height: 1
+                    height: 1,
+                    paddingLeft: 4
                 }}>
                     {buttonLabels.map((item, index) => (
                         <ListItem key={index+item}>

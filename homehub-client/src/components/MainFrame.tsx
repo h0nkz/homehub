@@ -1,8 +1,9 @@
 import TagFacesIcon from '@mui/icons-material/TagFaces';
-import { Box, Grid, Typography } from "@mui/material"
+import { Box, Grid, Typography, useTheme } from "@mui/material"
 import ListBox from './LabeledListBox';
 
 function MainFrame() {
+    const theme = useTheme();
     const mainListItems = [
         "[25/4 12:15] 1 ToDo due today: Pet cats",
         "[25/4 07:00] Scouted for Allotment",
@@ -13,8 +14,8 @@ function MainFrame() {
             <Grid size={1} height={1}>
                 <Box padding={5}>
                     <Typography marginInlineStart={5} sx={{
-                        fontSize: 300,
-                        color: '#00ee00'
+                        fontSize: 200,
+                        color: theme.palette.primary.main
                     }}>
                         <TagFacesIcon fontSize='inherit' color='inherit'/>
                     </Typography>
