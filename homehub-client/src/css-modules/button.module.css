@@ -1,13 +1,20 @@
 .styledTabButton {
 
     text-transform: 'none';
-    font-weight: 800;
-    font-size: 18;
+    font-weight: var(--theme-font-weight-bold);
+    font-size: 32;
     color: var(--theme-main-color);
-    border: 2;
+    border: 0;
     border-color: var(--theme-main-color);
-    width: (1024 - 48) / 4;
-    background-color: #000000;
+    width: 244px; /* (1024 - 48)/4 */
+    background-color: var(--theme-secondary-color);
     font-family: 'monospace';
     text-align: 'center';
+}
+
+#activeTab{
+    color: var(--theme-secondary-color);
+    border-radius: 2px;
+    border-color: var(--theme-main-color);
+    background-color: var(--theme-main-color);
 }

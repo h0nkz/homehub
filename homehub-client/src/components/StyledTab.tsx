@@ -1,9 +1,6 @@
-import { styled } from "@mui/material/styles";
-import { Tab, Tabs, Typography } from '@mui/material';
-import { useCallback, useContext, useState, type ChangeEvent, type ReactNode } from "react";
-import ThemeContext from "../contexts/ThemeContext";
+import { useContext, type ChangeEvent, type ReactNode } from "react";
 import TabsContext from "../contexts/TabsContext";
-import styles from '../css-modules/button.module.css'
+import styles from '../css-modules/button.module.css';
 
 
 
@@ -21,18 +18,16 @@ import styles from '../css-modules/button.module.css'
 
 function StyledTab({ value, label }: { value: string, label: string }) {
 
-  const theme = useContext(ThemeContext);
   const tabsContext = useContext(TabsContext)
 
   const onClickButton = (value: string) => {
     tabsContext?.setActiveTab(value)
   } 
 
-  console.dir(styles)
-
   return (
     <button 
       className={styles.styledTabButton}
+      id={value === tabsContext?.activeTab ? styles.activeTab : ""}
       value={value}
       onClick={() => onClickButton(value)}>
       {label}
@@ -40,13 +35,8 @@ function StyledTab({ value, label }: { value: string, label: string }) {
   )
 }
 
-interface StyledTabsProps {
-  children?: React.ReactNode;
-  value: string;
-  onChange: (e: ChangeEvent<HTMLButtonElement>) => void;
-}
+const StyledTabs = ({children}:{ children: ReactNode | ReactNode[]} ) => {
 
-const StyledTabs = ({ children, value, onChange }: StyledTabsProps) => {
   return (
     <div style={{
       display: 'flex',
