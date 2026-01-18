@@ -1,12 +1,6 @@
-import { Grid, Box, Typography, List, ListItem } from "@mui/material"
+import { Box, Typography, List, ListItem } from "@mui/material"
 
-interface ListBoxProps {
-    listItems: string[]
-    label: string
-
-}
-
-function LabeledListBox(props: ListBoxProps) {
+function LabeledListBox({listItems, label} : {listItems: string[], label: string}) {
 
     return (
         <Box padding={3} height={1}>
@@ -15,14 +9,14 @@ function LabeledListBox(props: ListBoxProps) {
                 marginBottom: 1,
                 fontWeight: 800
             }}>
-                {props.label}
+                {label}
             </Typography>
             <List dense sx={{
                 border: 2,
                 overflow: 'scroll',
                 height: 6/8
             }}>
-                {props.listItems.map((item, index) => (
+                {listItems.map((item, index) => (
                     <ListItem key={index+item} sx={{
                         height: 22,
                         fontWeight: 600,

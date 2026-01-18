@@ -1,10 +1,12 @@
 
 import { Box, Button, Grid, ListItem, useTheme } from "@mui/material"
 import ListBox from './LabeledListBox';
-import React, { useCallback } from "react";
+import React, { useCallback, useContext } from "react";
+import ThemeContext from "../contexts/ThemeContext";
 
 function ToDoFrame() {
-    const theme = useTheme();
+    const theme = useContext(ThemeContext);
+
     const buttonLabels = [
         "TODAY",
         "PRIO 1",
@@ -47,7 +49,7 @@ function ToDoFrame() {
                                 sx={{
                                     border: 3,
                                     width: 1,
-                                    fontWeight: theme.typography.fontWeightBold
+                                    fontWeight: theme.fontWeightBold
                                 }}
                                 onClick={() => handleButtonPressed(item)}>
                                 {item}

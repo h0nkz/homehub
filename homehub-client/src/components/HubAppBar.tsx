@@ -1,4 +1,4 @@
-import { AppBar, Toolbar, Grid, styled, Typography } from "@mui/material";
+import { AppBar, Toolbar, Grid} from "@mui/material";
 import WbSunnyIcon from '@mui/icons-material/WbSunny';
 import ThemeContext from "../contexts/ThemeContext";
 import { useContext, type ReactNode } from "react";

@@ -1,78 +1,44 @@
 import './App.css'
-import { ThemeProvider, createTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import { Typography } from '@mui/material';
-import React, { createContext } from 'react';
+import React, { createContext, useContext, type ChangeEvent } from 'react';
 import HubAppBar from './components/HubAppBar';
 import MainFrame from './components/MainFrame';
 import ToDoFrame from './components/ToDoFrame';
-import type { Theme } from './model/Theme';
 import { StyledTab, StyledTabs } from './components/StyledTab';
-
+import ThemeContext from './contexts/ThemeContext';
+import TabsContext from './contexts/TabsContext';
 
 /*
   Screen LNT101NT06-T01 with max resolution 1024x600
 */
 
-function App() {
-  const theme : Theme = {
-    mainColor: '#00ee00',
-    secondaryColor: '#000800',
-    fontFamily: 'monospace',
-    fontWeightBold: 800
-  }
-  const ThemeContext = createContext(theme);
-  const theme2 = createTheme({
-    palette: {
-      mode: 'dark',
-      primary: {
-        main: '#00ee00',
-        
-      },
-      secondary: {
-        main: '#000800ff',
-      },
-      text: {
-        primary: '#00ee00'
-      },
-      background: {
-        default: '#000800ff'
-      }
-    },
-    typography: {
-      fontFamily: 'monospace',
-      fontWeightBold: 800,
-    },
-    components: {
-      MuiToolbar: {
-        defaultProps: {
-          color: '#000800ff' // not working
-        }
-      }
-    }
-  });
 
-  const [tabValue, setTabValue] = React.useState('main');
-  const handleChangeTab = (_: React.SyntheticEvent, newValue: string) => {
-    setTabValue(newValue);
+function App() {
+  const theme = useContext(ThemeContext)
+
+  const [activeTab, setActiveTab] = React.useState('main');
+  const handleChangeTab = (e: ChangeEvent<HTMLButtonElement>) => {
+    console.dir(e)
+    setActiveTab(e.target.value);
   };
 
   const renderTabContent = () => {
-    switch (tabValue) {
+    switch (activeTab) {
       case "main":
-        return <MainFrame/>
-        case "todo":
-          return <ToDoFrame/>
-          case "errands":
+        return <MainFrame />
+      case "todo":
+        return <ToDoFrame />
+      case "errands":
         return <Typography>errands</Typography>
-        case "calendar":
+      case "calendar":
         return <Typography>calendar</Typography>
     }
   }
   return (
     <div id="grandparent">
       <ThemeContext.Provider value={theme}>
-        <HubAppBar appName='>HOMEHUB'/>
+        <HubAppBar appName='>HOMEHUB' />
         <Box>
           <Box sx={{
             border: 2,
@@ -80,18 +46,21 @@ function App() {
             width: 972,
             marginLeft: 3,
             marginRight: 3,
-            borderColor: 'primary.main'
+            borderColor: theme.mainColor
           }}>
             {renderTabContent()}
           </Box>
-          <StyledTabs
-            value={tabValue}
-            onChange={handleChangeTab}>
-            <StyledTab value="main" label="MAIN"/>
-            <StyledTab value="todo" label="TODO"/>
-            <StyledTab value="errands" label="ERRANDS"/>
-            <StyledTab value="calendar" label="CALENDAR"/>
-          </StyledTabs>
+          <TabsContext value={{ activeTab, setActiveTab }}>
+            <StyledTabs
+              value={activeTab}
+              onChange={handleChangeTab}>
+              <StyledTab value="main" label="MAIN" />
+              <StyledTab value="todo" label="TODO" />
+              <StyledTab value="errands" label="ERRANDS" />
+              <StyledTab value="calendar" label="CALENDAR" />
+            </StyledTabs>
+          </TabsContext>
+
         </Box>
 
       </ThemeContext.Provider>
