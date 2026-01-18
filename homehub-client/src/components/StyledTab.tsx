@@ -3,6 +3,7 @@ import { Tab, Tabs, Typography } from '@mui/material';
 import { useCallback, useContext, useState, type ChangeEvent, type ReactNode } from "react";
 import ThemeContext from "../contexts/ThemeContext";
 import TabsContext from "../contexts/TabsContext";
+import styles from '../css-modules/button.module.css'
 
 
 
@@ -26,20 +27,12 @@ function StyledTab({ value, label }: { value: string, label: string }) {
   const onClickButton = (value: string) => {
     tabsContext?.setActiveTab(value)
   } 
+
+  console.dir(styles)
+
   return (
-    <button style={{
-      textTransform: 'none',
-      fontWeight: theme.fontWeightBold,
-      fontSize: 18,
-      color: theme.mainColor,
-      border: 2,
-      borderColor: theme.mainColor,
-      width: (1024 - 48) / 4,
-      backgroundColor: theme.secondaryColor,
-      fontFamily: theme.fontFamily,
-      textAlign: 'center',
-    }}
-      className="styledTabButton"
+    <button 
+      className={styles.styledTabButton}
       value={value}
       onClick={() => onClickButton(value)}>
       {label}
@@ -63,8 +56,6 @@ const StyledTabs = ({ children, value, onChange }: StyledTabsProps) => {
     </div>
   )
 }
-
-
 
 export {
   StyledTab,

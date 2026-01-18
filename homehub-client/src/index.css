@@ -11,6 +11,11 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --theme-main-color: #00ee00;
+  --theme-secondary-color: #000800;
+  --theme-font-family: monospace;
+  --theme-font-weight-bold: 800;
 }
 
 a {
