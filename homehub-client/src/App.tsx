@@ -8,6 +8,7 @@ import ToDoFrame from './components/ToDoFrame';
 import { StyledTab, StyledTabs } from './components/StyledTab';
 import ThemeContext from './contexts/ThemeContext';
 import TabsContext from './contexts/TabsContext';
+import styles from './css-modules/box.module.css'
 
 /*
   Screen LNT101NT06-T01 with max resolution 1024x600
@@ -39,21 +40,12 @@ function App() {
     <div id="grandparent">
       <ThemeContext.Provider value={theme}>
         <HubAppBar appName='>HOMEHUB' />
-        <Box>
-          <Box sx={{
-            border: 2,
-            height: 450,
-            width: 972,
-            marginLeft: 3,
-            marginRight: 3,
-            borderColor: theme.mainColor
-          }}>
+        <div>
+          <div className={styles.frame}>
             {renderTabContent()}
-          </Box>
+          </div>
           <TabsContext value={{ activeTab, setActiveTab }}>
-            <StyledTabs
-              value={activeTab}
-              onChange={handleChangeTab}>
+            <StyledTabs>
               <StyledTab value="main" label="MAIN" />
               <StyledTab value="todo" label="TODO" />
               <StyledTab value="errands" label="ERRANDS" />
@@ -61,7 +53,7 @@ function App() {
             </StyledTabs>
           </TabsContext>
 
-        </Box>
+        </div>
 
       </ThemeContext.Provider>
     </div>

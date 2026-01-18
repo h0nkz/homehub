@@ -1,0 +1,8 @@
+.frame {
+    border: 2px;
+    height: 450px;
+    width: 972px;
+    margin: auto;
+    border-color: #00ee00;
+    border-style: solid;
+}
