@@ -1,0 +1,5 @@
+.listBoxLabel {
+    font-size: 20;
+    margin-bottom: 1;
+    font-weight: var(--theme-font-weight-bold)
+}

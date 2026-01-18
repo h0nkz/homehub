@@ -1,7 +1,6 @@
 import './App.css'
-import Box from '@mui/material/Box';
 import { Typography } from '@mui/material';
-import React, { createContext, useContext, type ChangeEvent } from 'react';
+import React, { useContext } from 'react';
 import HubAppBar from './components/HubAppBar';
 import MainFrame from './components/MainFrame';
 import ToDoFrame from './components/ToDoFrame';
@@ -19,10 +18,6 @@ function App() {
   const theme = useContext(ThemeContext)
 
   const [activeTab, setActiveTab] = React.useState('main');
-  const handleChangeTab = (e: ChangeEvent<HTMLButtonElement>) => {
-    console.dir(e)
-    setActiveTab(e.target.value);
-  };
 
   const renderTabContent = () => {
     switch (activeTab) {

@@ -6,3 +6,48 @@
     border-color: #00ee00;
     border-style: solid;
 }
+
+.divContainer {
+    height: 100%;
+    width: 100%;
+}
+
+.mainGrid {
+    display: grid;
+    grid-template-columns: 33% 66%;
+    grid-template-areas: 'first second second';
+    width: 100%;
+    height: 100%;
+}
+
+.gridItem1 {
+    grid-area: first;
+    margin: auto;
+}
+
+.gridItem2 {
+    grid-area: second;
+ /*    margin: auto; */
+}
+
+.listBox {
+    border: 2px;
+    height: 80%;
+    width: 70%;
+    margin: auto;
+    border-color: #ffffff;
+    border-style: solid;
+    padding-top: 2%;
+    padding-left: 3%;
+}
+
+.listBoxItem {
+    list-style-type: none;
+}
+
+.listBoxLabel {
+    font-size: 20;
+    margin-bottom: 1%;
+    margin-left: 15%;
+    font-weight: var(--theme-font-weight-bold)
+}
