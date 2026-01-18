@@ -9,7 +9,7 @@ function LabeledListBox({ listItems, label }: { listItems: string[], label: stri
             </p>
             <ul className={styles.listBox}>
                 {listItems.map((item, index) => 
-                    (<li className={styles.listBoxItem}>
+                    (<li className={styles.listBoxItem} id={`listItem${index}`}>
                         {item}
                     </li>)
                 )}

@@ -1,8 +1,9 @@
 
 import { Box, Button, Grid, ListItem, useTheme } from "@mui/material"
-import ListBox from './LabeledListBox';
+import LabeledListBox from './LabeledListBox';
 import React, { useCallback, useContext } from "react";
 import ThemeContext from "../contexts/ThemeContext";
+import styles from "../css-modules/box.module.css"
 
 function ToDoFrame() {
     const theme = useContext(ThemeContext);
@@ -32,36 +33,21 @@ function ToDoFrame() {
         setSelectedButton(buttonLabel);
     }, []);
     return (
-        <Grid container gridRow={1} columns={3} columnSpacing={1} height={1}>
-            <Grid size={1}>
-                <Box sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    height: 1,
-                    paddingLeft: 4
-                }}>
+        <div className={styles.mainGrid}>
+            <div className={styles.gridItem1}>
+                <div className={styles.buttonFlexBox}>
                     {buttonLabels.map((item, index) => (
-                        <ListItem key={index+item}>
-                            <Button
-                                variant='text'
-                                sx={{
-                                    border: 3,
-                                    width: 1,
-                                    fontWeight: theme.fontWeightBold
-                                }}
+                            <button className={styles.verticalFlexButton}
                                 onClick={() => handleButtonPressed(item)}>
                                 {item}
-                            </Button>
-                        </ListItem>
+                            </button>
                     ))}
-                </Box>
-            </Grid>
-            <Grid size={2}>
-                <ListBox listItems={toDos} label={selectedButton} />
-            </Grid>
-        </Grid>
+                </div>
+            </div>
+            <div className={styles.gridItem2}>
+                <LabeledListBox listItems={toDos} label={selectedButton} />
+            </div>
+        </div>
     )
 }
 

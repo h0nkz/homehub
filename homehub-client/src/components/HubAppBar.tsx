@@ -23,6 +23,7 @@ function HubAppBar({appName}: {appName: string}) {
         )
     }
 
+    // ToDo: Replace with html components
     return (
         <AppBar position="static" sx={{
             backgroundColor: theme.secondaryColor
