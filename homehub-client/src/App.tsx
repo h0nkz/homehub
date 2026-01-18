@@ -2,10 +2,11 @@ import './App.css'
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import { Typography } from '@mui/material';
-import React from 'react';
+import React, { createContext } from 'react';
 import HubAppBar from './components/HubAppBar';
 import MainFrame from './components/MainFrame';
 import ToDoFrame from './components/ToDoFrame';
+import type { Theme } from './model/Theme';
 import { StyledTab, StyledTabs } from './components/StyledTab';
 
 
@@ -14,8 +15,14 @@ import { StyledTab, StyledTabs } from './components/StyledTab';
 */
 
 function App() {
-
-  const theme = createTheme({
+  const theme : Theme = {
+    mainColor: '#00ee00',
+    secondaryColor: '#000800',
+    fontFamily: 'monospace',
+    fontWeightBold: 800
+  }
+  const ThemeContext = createContext(theme);
+  const theme2 = createTheme({
     palette: {
       mode: 'dark',
       primary: {
@@ -64,7 +71,7 @@ function App() {
   }
   return (
     <div id="grandparent">
-      <ThemeProvider theme={theme}>
+      <ThemeContext.Provider value={theme}>
         <HubAppBar appName='>HOMEHUB'/>
         <Box>
           <Box sx={{
@@ -87,7 +94,7 @@ function App() {
           </StyledTabs>
         </Box>
 
-      </ThemeProvider>
+      </ThemeContext.Provider>
     </div>
   )
 }

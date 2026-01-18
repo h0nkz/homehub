@@ -1,35 +1,41 @@
 import { AppBar, Toolbar, Grid, styled, Typography } from "@mui/material";
 import WbSunnyIcon from '@mui/icons-material/WbSunny';
-import { useTheme } from "@mui/material/styles";
+import ThemeContext from "../contexts/ThemeContext";
+import { useContext, type ReactNode } from "react";
 
-interface HubAppBarProps {
-    appName : string
-}
-function HubAppBar(props : HubAppBarProps) {
-    const theme = useTheme();
+
+function HubAppBar({appName}: {appName: string}) {
+    const theme = useContext(ThemeContext);
     const currentTime = '13:37'
     const currentTemp = '17°C'
 
-    const AppBarText = styled(Typography)(({ theme }) => ({
-        fontSize: 20,
-        color: theme.palette.text.primary,
-        fontFamily: 'monospace',
-        fontWeight: theme.typography.fontWeightBold
-    }))
+
+    const AppBarText = ({children} : {children: ReactNode | ReactNode[]}) => {
+        return (
+            <p style={{
+                fontSize: 20,
+                color: theme.mainColor,
+                fontFamily: theme.fontFamily,
+                fontWeight: theme.fontWeightBold
+            }}>
+                {children}
+            </p>
+        )
+    }
 
     return (
         <AppBar position="static" sx={{
-            backgroundColor: theme.palette.background.default
+            backgroundColor: theme.secondaryColor
         }}>
             <Toolbar sx={{
                 width: 1,
-                backgroundColor: '#000800ff'
+                backgroundColor: theme.secondaryColor
             }}>
                 <Grid container spacing={1} width={1}>
                     <Grid size={9}>
-                        <AppBarText color="primary.main">
-                            {props.appName}
-                        </AppBarText>
+                        <AppBarText>
+                            {appName}
+                        </AppBarText> 
                     </Grid>
                     <Grid size={1}>
                         <AppBarText>
