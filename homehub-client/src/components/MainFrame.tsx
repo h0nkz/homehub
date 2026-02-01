@@ -10,13 +10,9 @@ function MainFrame() {
     return (
         <div className={styles.mainGrid}>
             <div className={styles.gridItem1}>
-                <div>
                     <p>:D</p>
-                </div>
             </div>
-            <div className={styles.gridItem2}>
-                <LabeledListBox listItems={mainListItems} label="FEED"/>
-            </div>
+                <LabeledListBox className={styles.gridItem2} listItems={mainListItems} label="FEED"/>
         </div>
     )
 }

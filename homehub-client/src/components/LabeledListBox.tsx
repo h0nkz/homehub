@@ -1,9 +1,9 @@
 import styles from "../css-modules/box.module.css"
 
-function LabeledListBox({ listItems, label }: { listItems: string[], label: string }) {
+function LabeledListBox({ listItems, label, className }: { listItems: string[], label: string, className: string }) {
 
     return (
-        <div className={styles.divContainer}>
+    <div className={styles.className}>
             <p className={styles.listBoxLabel}>
                 {label}
             </p>
