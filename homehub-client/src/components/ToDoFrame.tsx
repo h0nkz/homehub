@@ -36,7 +36,7 @@ function ToDoFrame() {
         <div className={styles.mainGrid}>
             <div className={styles.gridItem1}>
                 <div className={styles.buttonFlexBox}>
-                    {buttonLabels.map((item, index) => (
+                    {buttonLabels.map((item, _) => (
                             <button className={styles.verticalFlexButton}
                                 onClick={() => handleButtonPressed(item)}>
                                 {item}

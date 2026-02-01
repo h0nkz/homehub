@@ -1,0 +1,31 @@
+.appBar {
+    display: grid;
+    grid-template-columns: 75% 10% 5% 10%;
+    grid-template-areas: 'title time icon temp';
+}
+
+.appBarText {
+    font-size: 2vw;
+    color: var(--theme-main-color);
+    font-family: var(--theme-font-family);
+    font-weight: var(--theme-font-weight-bold);
+}
+
+#title {
+    grid-area: title;
+    padding-left: 4%;
+}
+
+#time {
+    grid-area: time;
+}
+
+#icon {
+    grid-area: icon;
+    text-align: center;
+}
+
+#temp {
+    grid-area: temp;
+}
+
