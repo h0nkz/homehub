@@ -5,10 +5,25 @@ import (
 	"main/scouting"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/gorilla/mux"
 	"gorm.io/gorm"
 )
+
+// ScoutingErrand type is the model type for the errand to be performed
+type ScoutingErrand struct {
+	gorm.Model
+	Location  string    `json:"location"`
+	Objective string    `json:"objective"`
+	Interval  int       `json:"interval"`
+	Active    bool      `json:"active"`
+	Created   time.Time `json:"created"`
+}
+
+func (se *ScoutingErrand) toggle() {
+	se.Active = !se.Active
+}
 
 func (s *Server) addScoutingRoutes() {
 	s.HandleFunc("/api/scouting-errand", s.createScoutingErrand()).Methods("POST")
