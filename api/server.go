@@ -8,7 +8,6 @@ import (
 	"gorm.io/gorm"
 )
 
-// Server type is the type containing server logic
 type Server struct {
 	*mux.Router
 
@@ -17,7 +16,6 @@ type Server struct {
 	ctx          context.Context
 }
 
-// NewServer function creates a new server instance
 func NewServer(db *gorm.DB, ctx context.Context) *Server {
 	s := &Server{
 		Router:       mux.NewRouter(),
